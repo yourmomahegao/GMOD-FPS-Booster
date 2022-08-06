@@ -1,23 +1,3 @@
-net.Receive("DoFPSBooster", function()
-	if file.Exists("ymafpsconfig/ymafpsbooster.json", "DATA") then
-		local f = file.Open("ymafpsconfig/ymafpsbooster.json", "r", "DATA")
-			local FPSBoosterConfig = util.JSONToTable(f:Read())
-
-			if IsValid(hooksList) and hooksList != nil then
-				for i, sts in pairs(FPSBoosterConfig) do
-					if sts == true then
-						for i, hk in pairs(hooksList[i]) do
-							if i != "name" then
-								hook.Remove(hk[1], hk[2])
-							end
-						end
-					end
-				end
-			end
-		f:Close()
-	end
-end)
-
 surface.CreateFont( "fpsMenuText", {
 	font = "Arial",
 	extended = false,
@@ -173,4 +153,24 @@ end
 
 net.Receive("OpenFPSBoosterMenu", function()
 	toggleFPSMenu()
+end)
+
+hook.Add("InitPostEntity", "InitFPSMenu", function()
+	if file.Exists("ymafpsconfig/ymafpsbooster.json", "DATA") then
+		local f = file.Open("ymafpsconfig/ymafpsbooster.json", "r", "DATA")
+			local FPSBoosterConfig = util.JSONToTable(f:Read())
+
+			if IsValid(hooksList) and hooksList != nil then
+				for i, sts in pairs(FPSBoosterConfig) do
+					if sts == true then
+						for i, hk in pairs(hooksList[i]) do
+							if i != "name" then
+								hook.Remove(hk[1], hk[2])
+							end
+						end
+					end
+				end
+			end
+		f:Close()
+	end
 end)
